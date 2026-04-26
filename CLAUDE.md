@@ -1,111 +1,68 @@
----
-description: Use Bun instead of Node.js, npm, pnpm, or vite.
-globs: "*.ts, *.tsx, *.html, *.css, *.js, *.jsx, package.json"
-alwaysApply: false
----
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Project Overview
+
+`claude-switch-provider-cli` is a single-file CLI tool (`index.ts`) that manages and switches between different LLM API providers for Claude Code. It reads provider configs from `key.local.json` and writes environment variables to `~/.claude/settings.json`.
+
+The binary is `claude-env`, registered via `package.json#bin`.
+
+## Commands
+
+```sh
+bun install          # Install dependencies
+bun run index.ts     # Run the CLI directly
+bun link             # Install `claude-env` globally from this directory
+```
+
+## CLI Commands (what the tool exposes)
+
+```sh
+claude-env list                  # List all env vars in ~/.claude/settings.json
+claude-env get <key>             # Get a specific env var
+claude-env set <key> <value>     # Set an env var
+claude-env remove <key>          # Remove an env var
+claude-env clear [-y]            # Clear all env vars (prompts unless -y)
+claude-env providers             # List providers from key.local.json
+claude-env use [provider]        # Switch to a provider (interactive if omitted)
+```
+
+## Architecture
+
+The entire implementation lives in `index.ts` (~228 lines). There are no submodules.
+
+**Key paths (hardcoded in index.ts):**
+- `KEY_JSON_PATH` — `./key.local.json` (relative to the script's directory), gitignored, contains real API credentials
+- `key.json` — committed template showing the expected shape of `key.local.json`
+- `SETTINGS_PATH` — `~/.claude/settings.json`, where Claude Code reads its env vars
+
+**Provider config shape** (in `key.local.json`):
+```json
+{
+  "providers": {
+    "<name>": {
+      "env": {
+        "ANTHROPIC_AUTH_TOKEN": "...",
+        "ANTHROPIC_BASE_URL": "...",
+        "ANTHROPIC_MODEL": "...",
+        ...
+      }
+    }
+  }
+}
+```
+
+The `use` command merges provider env vars into `settings.json` under the `env` key, replacing any existing values.
+
+## Bun Usage
 
 Default to using Bun instead of Node.js.
 
 - Use `bun <file>` instead of `node <file>` or `ts-node <file>`
 - Use `bun test` instead of `jest` or `vitest`
-- Use `bun build <file.html|file.ts|file.css>` instead of `webpack` or `esbuild`
-- Use `bun install` instead of `npm install` or `yarn install` or `pnpm install`
-- Use `bun run <script>` instead of `npm run <script>` or `yarn run <script>` or `pnpm run <script>`
-- Use `bunx <package> <command>` instead of `npx <package> <command>`
-- Bun automatically loads .env, so don't use dotenv.
-
-## APIs
-
-- `Bun.serve()` supports WebSockets, HTTPS, and routes. Don't use `express`.
-- `bun:sqlite` for SQLite. Don't use `better-sqlite3`.
-- `Bun.redis` for Redis. Don't use `ioredis`.
-- `Bun.sql` for Postgres. Don't use `pg` or `postgres.js`.
-- `WebSocket` is built-in. Don't use `ws`.
-- Prefer `Bun.file` over `node:fs`'s readFile/writeFile
-- Bun.$`ls` instead of execa.
-
-## Testing
-
-Use `bun test` to run tests.
-
-```ts#index.test.ts
-import { test, expect } from "bun:test";
-
-test("hello world", () => {
-  expect(1).toBe(1);
-});
-```
-
-## Frontend
-
-Use HTML imports with `Bun.serve()`. Don't use `vite`. HTML imports fully support React, CSS, Tailwind.
-
-Server:
-
-```ts#index.ts
-import index from "./index.html"
-
-Bun.serve({
-  routes: {
-    "/": index,
-    "/api/users/:id": {
-      GET: (req) => {
-        return new Response(JSON.stringify({ id: req.params.id }));
-      },
-    },
-  },
-  // optional websocket support
-  websocket: {
-    open: (ws) => {
-      ws.send("Hello, world!");
-    },
-    message: (ws, message) => {
-      ws.send(message);
-    },
-    close: (ws) => {
-      // handle close
-    }
-  },
-  development: {
-    hmr: true,
-    console: true,
-  }
-})
-```
-
-HTML files can import .tsx, .jsx or .js files directly and Bun's bundler will transpile & bundle automatically. `<link>` tags can point to stylesheets and Bun's CSS bundler will bundle.
-
-```html#index.html
-<html>
-  <body>
-    <h1>Hello, world!</h1>
-    <script type="module" src="./frontend.tsx"></script>
-  </body>
-</html>
-```
-
-With the following `frontend.tsx`:
-
-```tsx#frontend.tsx
-import React from "react";
-import { createRoot } from "react-dom/client";
-
-// import .css files directly and it works
-import './index.css';
-
-const root = createRoot(document.body);
-
-export default function Frontend() {
-  return <h1>Hello, world!</h1>;
-}
-
-root.render(<Frontend />);
-```
-
-Then, run index.ts
-
-```sh
-bun --hot ./index.ts
-```
-
-For more information, read the Bun API docs in `node_modules/bun-types/docs/**.mdx`.
+- Use `bun install` instead of `npm install` or `yarn`
+- Use `bunx <package>` instead of `npx <package>`
+- Bun automatically loads `.env` — don't use dotenv
+- Prefer `Bun.file` over `node:fs` readFile/writeFile
+- Use `Bun.$\`cmd\`` instead of execa
