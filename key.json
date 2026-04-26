@@ -1,0 +1,48 @@
+{
+  "zai": {
+    "ANTHROPIC_AUTH_TOKEN": "",
+    "ANTHROPIC_BASE_URL": "https://api.z.ai/api/anthropic",
+    "API_TIMEOUT_MS": "3000000",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "glm-4.5-air",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "glm-4.7",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "glm-4.7"
+  },
+  "kimi": {
+    "ANTHROPIC_AUTH_TOKEN": "",
+    "ANTHROPIC_BASE_URL": "https://api.moonshot.ai/anthropic",
+    "ANTHROPIC_MODEL": "kimi-k2.5",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "kimi-k2.5",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "kimi-k2.5",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k2.5",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "kimi-k2.5",
+    "ENABLE_TOOL_SEARCH": "false"
+  },
+  "kyma": {
+    "ANTHROPIC_AUTH_TOKEN": "",
+    "ANTHROPIC_BASE_URL": "https://kymaapi.com",
+    "API_TIMEOUT_MS": "3000000",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "llama-3.3-70b",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "llama-3.3-70b",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "llama-3.3-70b"
+  },
+  "openrouter": {
+    "ANTHROPIC_AUTH_TOKEN": "",
+    "ANTHROPIC_BASE_URL": "https://openrouter.ai/api",
+    "API_TIMEOUT_MS": "3000000",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "minimax-m2.7",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "minimax-m2.7",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "minimax-m2.7"
+  },
+  "deepseek": {
+    "ANTHROPIC_AUTH_TOKEN": "",
+    "ANTHROPIC_BASE_URL": "https://api.deepseek.com/anthropic",
+    "API_TIMEOUT_MS": "3000000",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "deepseek-v4-flash",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "deepseek-v4-flash",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "deepseek-v4-pro"
+  }
+}
